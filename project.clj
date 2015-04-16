@@ -5,6 +5,7 @@
             :url  "http://www.opensource.org/licenses/mit-license.php"
             :distribution :repo}
   :min-lein-version "2.0.0"
+  :deploy-repositories [["releases" :clojars]]
   :dependencies [[org.clojure/math.combinatorics "0.0.7"]
                  [robert/hooke "1.3.0"]]
   :aliases {"test-newest" ["with-profile" "newest,1.5:newest,1.6" "test"]
