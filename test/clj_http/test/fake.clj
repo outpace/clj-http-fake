@@ -184,3 +184,15 @@
               {:status 200 :headers {} :body "anteater"})}
            (:body (http/get "http://google.com/search" {:query-params {:q "aardvark"}}))) "anteater")))
 
+(deftest should-not-pass-byte-array-to-transit
+  (with-fake-routes
+    {"http://google.com/?fst=test1&sec=test2"
+     (fn [request]
+       {:status 200 :headers {"Content-Type" "application/transit+json"} :body "[]"})}
+    (try
+      (:body (http/get "http://google.com/" {:query-params {:sec "test2",
+                                                            :fst "test1"}
+                                             :as :transit+json}))
+      (is true)
+      (catch Exception e
+        (is false (.getMessage e))))))

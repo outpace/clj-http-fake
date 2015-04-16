@@ -1,5 +1,6 @@
 (ns clj-http.fake
-  (:import [java.util.regex Pattern]
+  (:import [java.io ByteArrayInputStream]
+           [java.util.regex Pattern]
            [java.util Map]
            [java.net URLEncoder URLDecoder]
            [org.apache.http HttpEntity])
@@ -145,7 +146,7 @@
              (flatten-routes *fake-routes*)))]
     (let [route-handler (:handler matching-route)
           response (route-handler (unwrap-body request))]
-      (assoc response :body (utf8-bytes (:body response))))
+      (assoc response :body (ByteArrayInputStream. (utf8-bytes (:body response)))))
     (if *in-isolation*
       (throw (Exception.
               (apply format
